@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zertox - Investment Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --gray: #95a5a6;
+            --text-dark: #333;
+            --text-light: #777;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(to right, var(--primary), #34495e);
+            color: white;
+            padding: 18px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            text-shadow: 0 0 5px rgba(243, 156, 18, 0.4);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+        }
+        
+        /* Auth Pages */
+        .auth-container {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-tab.active {
+            color: var(--secondary);
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .auth-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .auth-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 15px;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .btn {
+            padding: 15px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: center;
+            display: block;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--secondary), #2980b9);
+            color: white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #2980b9, var(--secondary));
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .auth-footer a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+        
+        .card {
+            background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--secondary);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--secondary);
+        }
+        
+        .card-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-text {
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-size: 20px;
+            margin: 25px 0 18px;
+            color: var(--dark);
+            font-weight: 700;
+            padding-left: 8px;
+            position: relative;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 20px;
+            width: 5px;
+            background: var(--accent);
+            border-radius: 10px;
+        }
+        
+        /* Plans Section */
+        .plans-container {
+            margin-bottom: 25px;
+        }
+        
+        .plan-category {
+            margin-bottom: 30px;
+        }
+        
+        .category-title {
+            font-size: 18px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-left: 8px;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .category-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            height: 3px;
+            width: 30px;
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        
+        .plan-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+        
+        .plan-card {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .plan-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .plan-price {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(52, 152, 219, 0.2);
+        }
+        
+        .plan-details {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+        
+        .plan-details li {
+            padding: 10px 0;
+            color: var(--text-dark);
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+        
+        .plan-details li:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active {
+            color: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        .nav-item i {
+            font-size: 22px;
+            margin-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item.active i {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+        
+        /* Page Containers */
+        .page {
+            display: none;
+            margin-bottom: 90px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Form Styles */
+        .form-container {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 90px;
+        }
+        
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(to right, var(--success), #219653);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .submit-btn:hover {
+            background: linear-gradient(to right, #219653, var(--success));
+            box-shadow: 0 6px 15px rgba(39, 174, 96, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .withdraw-btn {
+            background: linear-gradient(to right, var(--accent), #e67e22);
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+        }
+        
+        .withdraw-btn:hover {
+            background: linear-gradient(to right, #e67e22, var(--accent));
+            box-shadow: 0 6px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+        .note {
+            background: #fff9e6;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin-top: 25px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .note strong {
+            color: var(--accent);
+        }
+        
+        .info-box {
+            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+            padding: 18px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .info-box p {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-box i {
+            margin-right: 10px;
+            color: var(--secondary);
+            font-size: 16px;
+        }
+        
+        /* UPI ID Box */
+        .upi-box {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px dashed var(--secondary);
+        }
+        
+        .upi-id {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .copy-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Profile Page */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .profile-img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .profile-name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+        
+        .profile-uid {
+            color: var(--text-light);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+        
+        .menu-list {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        .menu-item {
+            padding: 18px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background: #f8f9fa;
+            padding-left: 25px;
+        }
+        
+        .menu-item i {
+            margin-right: 18px;
+            font-size: 20px;
+            color: var(--secondary);
+            width: 24px;
+            transition: all 0.3s ease;
+        }
+        
+        .menu-item:hover i {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+        
+        .menu-item span {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 16px;
+        }
+        
+        /* About Zertox Section */
+        .about-content {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        .about-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .about-text {
+            font-size: 14px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .feature-list li {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .feature-list li i {
+            color: var(--success);
+            margin-right: 12px;
+            font-size: 16px;
+        }
+        
+        .security-bold {
+            font-weight: 700;
+            color: var(--success);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            background: var(--success);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 1000;
+            max-width: 300px;
+        }
+        
+        .notification.error {
+            background: var(--danger);
+        }
+        
+        /* Logout Button */
+        .logout-btn {
+            background: linear-gradient(to right, var(--danger), #c0392b);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(to right, #c0392b, var(--danger));
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Page -->
+        <div id="authPage">
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="loginTab">Login</div>
+                    <div class="auth-tab" id="registerTab">Register</div>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm">
+                    <h2 class="auth-title">Login to Your Account</h2>
+                    
+                    <div class="form-group">
+                        <label for="loginPhone">Phone Number</label>
+                        <input type="tel" id="loginPhone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="login()">Login</button>
+                    
+                    <div class="auth-footer">
+                        Don't have an account? <a href="#" onclick="showRegister()">Register now</a>
+                    </div>
+                </div>
+                
+                <!-- Register Form -->
+                <div id="registerForm" style="display: none;">
+                    <h2 class="auth-title">Create New Account</h2>
+                    
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPhone">Phone Number</label>
+                        <input type="tel" id="registerPhone" placeholder="Enter your phone number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="Create a password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirm Password</label>
+                        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="register()">Create Account</button>
+                    
+                    <div class="auth-footer">
+                        Already have an account? <a href="#" onclick="showLogin()">Login now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App (shown after login) -->
+        <div id="appPage" style="display: none;">
+            <!-- Header -->
+            <div class="header">
+                <div class="logo">Zert<span>ox</span></div>
+                <div class="user-info">
+                    <img src="https://ui-avatars.com/api/?name=User&background=3498db&color=fff" alt="User" id="userAvatar">
+                    <span id="userName">User</span>
+                    <button class="logout-btn" onclick="logout()" style="margin-left: 15px;">Logout</button>
+                </div>
+            </div>
+
+            <!-- Home Page Content -->
+            <div id="homePage" class="page">
+                <!-- Dashboard Cards -->
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Total Balance</div>
+                            <div class="card-icon">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="userBalance">₹0.00</div>
+                        <div class="card-text">Make your first deposit to start earning</div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Active Investments</div>
+                            <div class="card-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                        </div>
+                        <div class="card-value">₹0.00</div>
+                        <div class="card-text">No active investments yet</div>
+                    </div>
+                </div>
+
+                <!-- Normal Plans -->
+                <div class="plans-container">
+                    <h2 class="section-title">Investment Plans</h2>
+                    
+                    <div class="plan-category">
+                        <h3 class="category-title">Normal Plans</h3>
+                        <div class="plan-cards">
+                            <div class="plan-card">
+                                <h3 class="plan-name">Plan 1</h3>
+                                <div class="plan-price">₹286</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹189</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>45 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹8,505</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(286)">Invest Now</button>
+                            </div>
+                            
+                            <div class="plan-card">
+                                <h3 class="plan-name">Plan 2</h3>
+                                <div class="plan-price">₹498</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹351</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>28 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹9,828</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(498)">Invest Now</button>
+                            </div>
+                            
+                            <div class="plan-card">
+                                <h3 class="plan-name">Plan 3</h3>
+                                <div class="plan-price">₹799</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹619</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>18 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹11,142</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(799)">Invest Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Zertox Pro Plans -->
+                    <div class="plan-category">
+                        <h3 class="category-title">Zertox Pro Plans</h3>
+                        <div class="plan-cards">
+                            <div class="plan-card">
+                                <h3 class="plan-name">Pro Plan 1</h3>
+                                <div class="plan-price">₹899</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹599</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>43 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹25,757</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(899)">Invest Now</button>
+                            </div>
+                            
+                            <div class="plan-card">
+                                <h3 class="plan-name">Pro Plan 2</h3>
+                                <div class="plan-price">₹1,566</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹978</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>38 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹37,164</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(1566)">Invest Now</button>
+                            </div>
+                            
+                            <div class="plan-card">
+                                <h3 class="plan-name">Pro Plan 3</h3>
+                                <div class="plan-price">₹2,000</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹1,389</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>12 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹16,668</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(2000)">Invest Now</button>
+                            </div>
+                            
+                            <div class="plan-card">
+                                <h3 class="plan-name">Pro Plan 4</h3>
+                                <div class="plan-price">₹3,790</div>
+                                <ul class="plan-details">
+                                    <li><span class="detail-label">Daily Income:</span> <span>₹1,999</span></li>
+                                    <li><span class="detail-label">Duration:</span> <span>5 Days</span></li>
+                                    <li><span class="detail-label">Total Return:</span> <span>₹9,995</span></li>
+                                </ul>
+                                <button class="btn btn-primary" onclick="checkBalance(3790)">Invest Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deposit Page Content -->
+            <div id="depositPage" class="page">
+                <div class="form-container">
+                    <h2 class="page-title">Deposit Funds</h2>
+                    
+                    <div class="info-box">
+                        <p><i class="fas fa-info-circle"></i> Send payment to our UPI ID and provide transaction details below</p>
+                    </div>
+                    
+                    <div class="upi-box">
+                        <div class="upi-id">pallavipandey132001@okicici</div>
+                        <button class="copy-btn" onclick="copyUPI()">Copy</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="amount">Deposit Amount (₹)</label>
+                        <input type="number" id="amount" placeholder="Enter amount">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="utr">UTR Number</label>
+                        <input type="text" id="utr" placeholder="Enter UTR number from your payment">
+                    </div>
+                    
+                    <button class="submit-btn" onclick="submitDeposit()">Submit Deposit</button>
+                    
+                    <div class="note">
+                        <p><strong>Note:</strong> Your deposit will be added to your account within 2 hours after verification.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Withdrawal Page Content -->
+            <div id="withdrawPage" class="page">
+                <div class="form-container">
+                    <h2 class="page-title">Withdraw Funds</h2>
+                    
+                    <div class="info-box">
+                        <p><i class="fas fa-info-circle"></i> Minimum withdrawal: ₹499 | Processed within 4-6 hours</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="withdrawAmount">Withdrawal Amount (₹)</label>
+                        <input type="number" id="withdrawAmount" placeholder="Enter amount (min ₹499)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="withdrawUpiId">Your UPI ID</label>
+                        <input type="text" id="withdrawUpiId" placeholder="Enter your UPI ID for withdrawal">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Enter your active phone number">
+                    </div>
+                    
+                    <button class="submit-btn withdraw-btn" onclick="submitWithdrawal()">Request Withdrawal</button>
+                    
+                    <div class="note">
+                        <p><strong>Note:</strong> Withdrawal requests are processed within 4-6 hours during business hours.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page Content -->
+            <div id="profilePage" class="page">
+                <div class="profile-header">
+                    <img src="https://ui-avatars.com/api/?name=User&background=3498db&color=fff&size=80" alt="Profile" class="profile-img">
+                    <h2 class="profile-name" id="profileUserName">User</h2>
+                    <p class="profile-uid" id="profileUserUid">UID: Loading...</p>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="profileBalance">₹0.00</div>
+                        <div class="stat-label">Total Balance</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">₹0.00</div>
+                        <div class="stat-label">Total Earned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Active Plans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Total Deposits</div>
+                    </div>
+                </div>
+                
+                <div class="menu-list">
+                    <div class="menu-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Settings</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-history"></i>
+                        <span>Transaction History</span>
+                    </div>
+                    <div class="menu-item">
+                        <i class="fas fa-gift"></i>
+                        <span>Referral Program</span>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">About Zertox</h2>
+                
+                <div class="about-content">
+                    <h3 class="about-title">Trusted Investment Platform</h3>
+                    <p class="about-text">Zertox is a <span class="security-bold">fully secure and trusted</span> investment platform that provides daily returns on your investments. We prioritize the safety and security of your funds with advanced encryption and protection measures.</p>
+                    
+                    <ul class="feature-list">
+                        <li><i class="fas fa-check-circle"></i> 256-bit SSL Encryption</li>
+                        <li><i class="fas fa-check-circle"></i> Secure Payment Gateway</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 Fraud Monitoring</li>
+                        <li><i class="fas fa-check-circle"></i> Registered & Licensed Company</li>
+                        <li><i class="fas fa-check-circle"></i> Daily Profit Payouts</li>
+                        <li><i class="fas fa-check-circle"></i> Instant Withdrawal Processing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav" id="bottomNav" style="display: none;">
+            <a href="#" class="nav-item active" onclick="showPage('homePage')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showPage('depositPage')">
+                <i class="fas fa-wallet"></i>
+                <span>Deposit</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showPage('withdrawPage')">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Withdraw</span>
+            </a>
+            <a href="#" class="nav-item" onclick="showPage('profilePage')">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        Operation completed successfully!
+    </div>
+
+    <script>
+        // Current user data
+        let currentUser = null;
+        
+        // Switch to register form
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('registerTab').classList.add('active');
+        }
+        
+        // Switch to login form
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerTab').classList.remove('active');
+            document.getElementById('loginTab').classList.add('active');
+        }
+        
+        // Register new user
+        function register() {
+            const name = document.getElementById('registerName').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (!name || !phone || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', true);
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', true);
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', true);
+                return;
+            }
+            
+            if (phone.length !== 10) {
+                showNotification('Please enter a valid 10-digit phone number', true);
+                return;
+            }
+            
+            // Check if user already exists
+            const existingUsers = JSON.parse(localStorage.getItem('zertoxUsers') || '{}');
+            if (existingUsers[phone]) {
+                showNotification('User with this phone number already exists', true);
+                return;
+            }
+            
+            // Create new user with unique UID
+            const uid = 'ZX' + Math.floor(100000 + Math.random() * 900000);
+            
+            // Create user object
+            const user = {
+                uid: uid,
+                name: name,
+                phone: phone,
+                password: password,
+                balance: 0,
+                status: 'Active',
+                investments: [],
+                transactions: [],
+                joined: new Date().toLocaleDateString()
+            };
+            
+            // Save user to database
+            existingUsers[phone] = user;
+            localStorage.setItem('zertoxUsers', JSON.stringify(existingUsers));
+            
+            // Set as current user
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            showNotification('Account created successfully! Your UID: ' + uid);
+            
+            // Show main app
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('appPage').style.display = 'block';
+            document.getElementById('bottomNav').style.display = 'flex';
+            
+            // Update UI with user data
+            updateUserUI();
+        }
+        
+        // Login user
+        function login() {
+            const phone = document.getElementById('loginPhone').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!phone || !password) {
+                showNotification('Please enter both phone number and password', true);
+                return;
+            }
+            
+            // Check if user exists
+            const existingUsers = JSON.parse(localStorage.getItem('zertoxUsers') || '{}');
+            const user = existingUsers[phone];
+            
+            if (!user) {
+                showNotification('No account found with this phone number', true);
+                return;
+            }
+            
+            if (user.password !== password) {
+                showNotification('Incorrect password', true);
+                return;
+            }
+            
+            // Set as current user
+            currentUser = user;
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            
+            showNotification('Login successful! Welcome back, ' + user.name);
+            
+            // Show main app
+            document.getElementById('authPage').style.display = 'none';
+            document.getElementById('appPage').style.display = 'block';
+            document.getElementById('bottomNav').style.display = 'flex';
+            
+            // Update UI with user data
+            updateUserUI();
+        }
+        
+        // Logout user
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            document.getElementById('appPage').style.display = 'none';
+            document.getElementById('bottomNav').style.display = 'none';
+            document.getElementById('authPage').style.display = 'block';
+            
+            // Clear login form
+            document.getElementById('loginPhone').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            showNotification('Logged out successfully');
+        }
+        
+        // Update UI with current user data
+        function updateUserUI() {
+            if (!currentUser) return;
+            
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userBalance').textContent = `₹${currentUser.balance.toFixed(2)}`;
+            document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=3498db&color=fff`;
+            
+            // Update profile page
+            document.getElementById('profileUserName').textContent = currentUser.name;
+            document.getElementById('profileUserUid').textContent = `UID: ${currentUser.uid}`;
+            document.getElementById('profileBalance').textContent = `₹${currentUser.balance.toFixed(2)}`;
+        }
+        
+        // Show specific page
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).style.display = 'block';
+            
+            // Update active nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            
+            // Find and activate the clicked nav item
+            event.currentTarget.classList.add('active');
+            
+            // Update user data if showing profile
+            if (pageId === 'profilePage') {
+                updateUserUI();
+            }
+        }
+        
+        // Check balance before investing
+        function checkBalance(planAmount) {
+            if (currentUser.balance < planAmount) {
+                showNotification("Insufficient balance! You need to deposit ₹" + planAmount + " to invest in this plan.", true);
+                showPage('depositPage');
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => item.classList.remove('active'));
+                document.querySelector('[onclick="showPage(\'depositPage\')"]').classList.add('active');
+            } else {
+                showNotification("You have sufficient balance to invest in this plan.");
+            }
+        }
+        
+        // Copy UPI ID to clipboard
+        function copyUPI() {
+            const upiId = "pallavipandey132001@okicici";
+            navigator.clipboard.writeText(upiId).then(() => {
+                showNotification("UPI ID copied to clipboard: " + upiId);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+        
+        // Submit deposit
+        function submitDeposit() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            const utr = document.getElementById('utr').value;
+            
+            if (!amount || amount <= 0) {
+                showNotification("Please enter a valid deposit amount", true);
+                return;
+            }
+            
+            if (!utr) {
+                showNotification("Please enter your UTR number", true);
+                return;
+            }
+            
+            // Update user balance
+            currentUser.balance += amount;
+            
+            // Add transaction to history
+            const now = new Date();
+            currentUser.transactions.push({
+                type: 'deposit',
+                amount: amount,
+                date: now.toLocaleDateString(),
+                time: now.toLocaleTimeString(),
+                description: 'Deposit via UPI',
+                status: 'Pending'
+            });
+            
+            // Update user in database
+            const existingUsers = JSON.parse(localStorage.getItem('zertoxUsers') || '{}');
+            existingUsers[currentUser.phone] = currentUser;
+            localStorage.setItem('zertoxUsers', JSON.stringify(existingUsers));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            showNotification("Deposit request submitted! Amount: ₹" + amount + ". It will be added after verification.");
+            
+            // Clear form
+            document.getElementById('amount').value = '';
+            document.getElementById('utr').value = '';
+            
+            // Update UI
+            updateUserUI();
+            
+            // Go back to home page
+            showPage('homePage');
+        }
+        
+        // Submit withdrawal
+        function submitWithdrawal() {
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            const upiId = document.getElementById('withdrawUpiId').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!amount || amount < 499) {
+                showNotification("Minimum withdrawal amount is ₹499", true);
+                return;
+            }
+            
+            if (amount > currentUser.balance) {
+                showNotification("Insufficient balance for withdrawal", true);
+                return;
+            }
+            
+            if (!upiId) {
+                showNotification("Please enter your UPI ID", true);
+                return;
+            }
+            
+            if (!phone) {
+                showNotification("Please enter your phone number", true);
+                return;
+            }
+            
+            // Update user balance
+            currentUser.balance -= amount;
+            
+            // Add transaction to history
+            const now = new Date();
+            currentUser.transactions.push({
+                type: 'withdrawal',
+                amount: amount,
+                date: now.toLocaleDateString(),
+                time: now.toLocaleTimeString(),
+                description: 'Withdrawal to UPI: ' + upiId,
+                status: 'Processing'
+            });
+            
+            // Update user in database
+            const existingUsers = JSON.parse(localStorage.getItem('zertoxUsers') || '{}');
+            existingUsers[currentUser.phone] = currentUser;
+            localStorage.setItem('zertoxUsers', JSON.stringify(existingUsers));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            showNotification("Withdrawal request submitted! Amount: ₹" + amount + ". It will be processed within 4-6 hours.");
+            
+            // Clear form
+            document.getElementById('withdrawAmount').value = '';
+            document.getElementById('withdrawUpiId').value = '';
+            document.getElementById('phone').value = '';
+            
+            // Update UI
+            updateUserUI();
+            
+            // Go back to home page
+            showPage('homePage');
+        }
+        
+        // Show notification
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            notification.innerText = message;
+            notification.className = isError ? 'notification error' : 'notification';
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Check if user is already logged in
+        function checkLoginStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                document.getElementById('authPage').style.display = 'none';
+                document.getElementById('appPage').style.display = 'block';
+                document.getElementById('bottomNav').style.display = 'flex';
+                updateUserUI();
+            }
+        }
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            
+            // Add tab click handlers
+            document.getElementById('loginTab').addEventListener('click', showLogin);
+            document.getElementById('registerTab').addEventListener('click', showRegister);
+            
+            // Allow pressing Enter to submit forms
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    login();
+                }
+            });
+            
+            document.getElementById('registerConfirmPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    register();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
